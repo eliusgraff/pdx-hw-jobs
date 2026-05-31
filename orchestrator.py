@@ -129,7 +129,7 @@ def send_to_sql( func , cursor , table_name ):
     
     #Set up variables
     assert callable(func)
-    print(f"Executing {func.__name__}")
+    #print(f"Executing {func.__name__}")
     
     s = time.perf_counter()
     job_list = func()
