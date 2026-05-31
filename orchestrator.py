@@ -5,35 +5,36 @@ from concurrent.futures import ThreadPoolExecutor
 import time
 import traceback
 
-from fetch_amat_jobs import fetch_amat_jobs
-from fetch_amd_jobs import fetch_amd_jobs
-from fetch_ampere_jobs import fetch_ampere_jobs
-from fetch_analog_devices_jobs import fetch_analog_devices_jobs
-from fetch_apple_jobs import fetch_apple_jobs
-from fetch_autodesk_jobs import fetch_autodesk_jobs
-from fetch_celestica_jobs import fetch_celestica_jobs
-from fetch_cisco_jobs import fetch_cisco_jobs
-from fetch_compunet_jobs import fetch_compunet_jobs
-from fetch_google_jobs import fetch_google_jobs
-from fetch_hp_jobs import fetch_hp_jobs
-from fetch_intel_jobs import fetch_intel_jobs
-from fetch_kla_jobs import fetch_kla_jobs
-from fetch_lam_jobs import fetch_lam_jobs
-from fetch_lattice_jobs import fetch_lattice_jobs
-from fetch_marvell_jobs import fetch_marvell_jobs
-from fetch_microchip_jobs import fetch_microchip_jobs
-from fetch_microsoft_jobs import fetch_microsoft_jobs
-from fetch_nearfield_jobs import fetch_nfi_jobs
-from fetch_nvidia_jobs import fetch_nvidia_jobs
-from fetch_onsemi_jobs import fetch_onsemi_jobs
-from fetch_qorvo_jobs import fetch_qorvo_jobs
-from fetch_qualcomm_jobs import fetch_qualcomm_jobs
-from fetch_ralliant_jobs import fetch_ralliant_jobs
-from fetch_siemens_jobs import fetch_siemens_jobs
-from fetch_siltronic_jobs import fetch_siltronic_jobs
-from fetch_skyworks_jobs import fetch_skyworks_jobs
-from fetch_tsmc_jobs import fetch_tsmc_jobs
-from fetch_vgems_jobs import fetch_vgems_jobs
+#This is really ugly, sorry whoever reads this...
+from job_scrapers.fetch_amat_jobs import fetch_amat_jobs
+from job_scrapers.fetch_amd_jobs import fetch_amd_jobs
+from job_scrapers.fetch_ampere_jobs import fetch_ampere_jobs
+from job_scrapers.fetch_analog_devices_jobs import fetch_analog_devices_jobs
+from job_scrapers.fetch_apple_jobs import fetch_apple_jobs
+from job_scrapers.fetch_autodesk_jobs import fetch_autodesk_jobs
+from job_scrapers.fetch_celestica_jobs import fetch_celestica_jobs
+from job_scrapers.fetch_cisco_jobs import fetch_cisco_jobs
+from job_scrapers.fetch_compunet_jobs import fetch_compunet_jobs
+from job_scrapers.fetch_google_jobs import fetch_google_jobs
+from job_scrapers.fetch_hp_jobs import fetch_hp_jobs
+from job_scrapers.fetch_intel_jobs import fetch_intel_jobs
+from job_scrapers.fetch_kla_jobs import fetch_kla_jobs
+from job_scrapers.fetch_lam_jobs import fetch_lam_jobs
+from job_scrapers.fetch_lattice_jobs import fetch_lattice_jobs
+from job_scrapers.fetch_marvell_jobs import fetch_marvell_jobs
+from job_scrapers.fetch_microchip_jobs import fetch_microchip_jobs
+from job_scrapers.fetch_microsoft_jobs import fetch_microsoft_jobs
+from job_scrapers.fetch_nearfield_jobs import fetch_nfi_jobs
+from job_scrapers.fetch_nvidia_jobs import fetch_nvidia_jobs
+from job_scrapers.fetch_onsemi_jobs import fetch_onsemi_jobs
+from job_scrapers.fetch_qorvo_jobs import fetch_qorvo_jobs
+from job_scrapers.fetch_qualcomm_jobs import fetch_qualcomm_jobs
+from job_scrapers.fetch_ralliant_jobs import fetch_ralliant_jobs
+from job_scrapers.fetch_siemens_jobs import fetch_siemens_jobs
+from job_scrapers.fetch_siltronic_jobs import fetch_siltronic_jobs
+from job_scrapers.fetch_skyworks_jobs import fetch_skyworks_jobs
+from job_scrapers.fetch_tsmc_jobs import fetch_tsmc_jobs
+from job_scrapers.fetch_vgems_jobs import fetch_vgems_jobs
 
 #This function only parses lines if query matches the description. It puts the matched lines into a dictionary where the 
 #variable names are the keys and the values are the values.
@@ -292,13 +293,11 @@ if __name__ == "__main__":
     s = time.perf_counter()
     t0_con = create_db_connection()
     t0_cur = t0_con.cursor()
-
     table_name = "jobs"
 
     user_question = f"Using the PRODUCTION {table_name} table? ('Y' to continue, anything else to exit)"
     if table_name == "jobs" and input(user_question).lower() != 'y':
         exit("Scrape cancelled, exiting!")
-
     user_question = "It has been less than 24hrs since last pull, would you like to pull again anyway? ('Y' for yes, anything else for no)"
     if is_24_hrs(t0_cur) is False and input(user_question).lower() != 'y':
         exit("Scrape cancelled, exiting!")
@@ -306,18 +305,18 @@ if __name__ == "__main__":
     #Might be worthwhile to write some code to make sure the jobs are optimally scheduled. I put the jobs that take the longest
     #at the front of the list so that way those can all get done in parallel and balance the temporal load between threads
     job_queue = [
-        #fetch_tsmc_jobs,
-        #fetch_intel_jobs,
-        #fetch_amat_jobs,
-        #fetch_amd_jobs,
-        #fetch_apple_jobs,
-        #fetch_autodesk_jobs,
-        #fetch_cisco_jobs,
-        #fetch_celestica_jobs,
-        #fetch_ampere_jobs,
-        #fetch_compunet_jobs,
-        #fetch_google_jobs,
-        #fetch_hp_jobs,
+        fetch_tsmc_jobs,
+        fetch_intel_jobs,
+        fetch_amat_jobs,
+        fetch_amd_jobs,
+        fetch_apple_jobs,
+        fetch_autodesk_jobs,
+        fetch_cisco_jobs,
+        fetch_celestica_jobs,
+        fetch_ampere_jobs,
+        fetch_compunet_jobs,
+        fetch_google_jobs,
+        fetch_hp_jobs,
         fetch_analog_devices_jobs,
         fetch_kla_jobs,
         fetch_lam_jobs,
@@ -328,13 +327,13 @@ if __name__ == "__main__":
         fetch_nfi_jobs,
         fetch_nvidia_jobs,
         fetch_onsemi_jobs,
-        #fetch_qorvo_jobs,
-        #fetch_qualcomm_jobs,
-        #fetch_ralliant_jobs,
-        #fetch_siemens_jobs,
-        #fetch_siltronic_jobs,
-        #fetch_skyworks_jobs,
-        #fetch_vgems_jobs,
+        fetch_qorvo_jobs,
+        fetch_qualcomm_jobs,
+        fetch_ralliant_jobs,
+        fetch_siemens_jobs,
+        fetch_siltronic_jobs,
+        fetch_skyworks_jobs,
+        fetch_vgems_jobs,
     ]
 
     #Setting up variables to keep track of theads and any errors that occur in them
@@ -343,7 +342,6 @@ if __name__ == "__main__":
     conns = [t0_con]
     crsrs = [t0_cur]
     for i in range(num_threads-1):
-
         temp_con = create_db_connection()
         crsrs.append(temp_con.cursor())
         conns.append(temp_con)
