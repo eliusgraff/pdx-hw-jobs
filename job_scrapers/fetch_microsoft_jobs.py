@@ -14,7 +14,6 @@ def fetch_microsoft_jobs():
         "sort_by": "timestamp",
         "filter_include_remote": 1,
         "filter_distance" : 100,
-        "filter_seniority": ["Senior","Mid-Level","Manager","Director"]
     }
     
     headers = {
@@ -48,6 +47,11 @@ def fetch_microsoft_jobs():
             total = result_data.get("count", 0)
         
         positions = result_data.get("positions", [])
+        
+        #if for some reason the page returns no jobs, return whatever has already been parsed
+        if len(positions) == 0:
+            return all_jobs
+
         # Normalize each raw position record into our standard dictionary
         for job in positions:
             # Standardized data extraction
@@ -58,7 +62,7 @@ def fetch_microsoft_jobs():
             department = job.get("department")
             
             # Format posted date
-            posted_date = datetime.fromtimestamp(posted_ts).strftime('%Y-%m-%d') if posted_ts else None
+            posted_date = datetime.fromtimestamp(posted_ts) if posted_ts else None
             
             # Construct the full URL
             position_url = job.get("positionUrl")
@@ -72,9 +76,10 @@ def fetch_microsoft_jobs():
                 "url": full_url,
                 "department": department
             }
+
             all_jobs.append(job_info)
-        
-        last_job_date = datetime.fromtimestamp(positions[-1]["postedTs"])
+
+        last_job_date = all_jobs[-1]["post_date"]
 
         # Stop paging once the last job on the page exceeds our age threshold
         if is_old(last_job_date):
