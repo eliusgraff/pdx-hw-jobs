@@ -1,15 +1,10 @@
 import requests
-import json
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timezone
 from helper import is_old, print_jobs
-
 import time
-
 
 BASE_URL = "https://careers.appliedmaterials.com"
 SEARCH_URL = f"{BASE_URL}/api/pcsx/search"
-
-
 
 def fetch_amat_jobs():
     headers = {

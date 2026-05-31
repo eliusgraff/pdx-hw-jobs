@@ -6,35 +6,35 @@ import time
 import traceback
 
 #This is really ugly, sorry whoever reads this...
-from job_scrapers.fetch_amat_jobs import fetch_amat_jobs
-from job_scrapers.fetch_amd_jobs import fetch_amd_jobs
-from job_scrapers.fetch_ampere_jobs import fetch_ampere_jobs
-from job_scrapers.fetch_analog_devices_jobs import fetch_analog_devices_jobs
-from job_scrapers.fetch_apple_jobs import fetch_apple_jobs
-from job_scrapers.fetch_autodesk_jobs import fetch_autodesk_jobs
-from job_scrapers.fetch_celestica_jobs import fetch_celestica_jobs
-from job_scrapers.fetch_cisco_jobs import fetch_cisco_jobs
-from job_scrapers.fetch_compunet_jobs import fetch_compunet_jobs
-from job_scrapers.fetch_google_jobs import fetch_google_jobs
-from job_scrapers.fetch_hp_jobs import fetch_hp_jobs
-from job_scrapers.fetch_intel_jobs import fetch_intel_jobs
-from job_scrapers.fetch_kla_jobs import fetch_kla_jobs
-from job_scrapers.fetch_lam_jobs import fetch_lam_jobs
-from job_scrapers.fetch_lattice_jobs import fetch_lattice_jobs
-from job_scrapers.fetch_marvell_jobs import fetch_marvell_jobs
-from job_scrapers.fetch_microchip_jobs import fetch_microchip_jobs
-from job_scrapers.fetch_microsoft_jobs import fetch_microsoft_jobs
-from job_scrapers.fetch_nearfield_jobs import fetch_nfi_jobs
-from job_scrapers.fetch_nvidia_jobs import fetch_nvidia_jobs
-from job_scrapers.fetch_onsemi_jobs import fetch_onsemi_jobs
-from job_scrapers.fetch_qorvo_jobs import fetch_qorvo_jobs
-from job_scrapers.fetch_qualcomm_jobs import fetch_qualcomm_jobs
-from job_scrapers.fetch_ralliant_jobs import fetch_ralliant_jobs
-from job_scrapers.fetch_siemens_jobs import fetch_siemens_jobs
-from job_scrapers.fetch_siltronic_jobs import fetch_siltronic_jobs
-from job_scrapers.fetch_skyworks_jobs import fetch_skyworks_jobs
-from job_scrapers.fetch_tsmc_jobs import fetch_tsmc_jobs
-from job_scrapers.fetch_vgems_jobs import fetch_vgems_jobs
+from fetch_amat_jobs import fetch_amat_jobs
+from fetch_amd_jobs import fetch_amd_jobs
+from fetch_ampere_jobs import fetch_ampere_jobs
+from fetch_analog_devices_jobs import fetch_analog_devices_jobs
+from fetch_apple_jobs import fetch_apple_jobs
+from fetch_autodesk_jobs import fetch_autodesk_jobs
+from fetch_celestica_jobs import fetch_celestica_jobs
+from fetch_cisco_jobs import fetch_cisco_jobs
+from fetch_compunet_jobs import fetch_compunet_jobs
+from fetch_google_jobs import fetch_google_jobs
+from fetch_hp_jobs import fetch_hp_jobs
+from fetch_intel_jobs import fetch_intel_jobs
+from fetch_kla_jobs import fetch_kla_jobs
+from fetch_lam_jobs import fetch_lam_jobs
+from fetch_lattice_jobs import fetch_lattice_jobs
+from fetch_marvell_jobs import fetch_marvell_jobs
+from fetch_microchip_jobs import fetch_microchip_jobs
+from fetch_microsoft_jobs import fetch_microsoft_jobs
+from fetch_nearfield_jobs import fetch_nfi_jobs
+from fetch_nvidia_jobs import fetch_nvidia_jobs
+from fetch_onsemi_jobs import fetch_onsemi_jobs
+from fetch_qorvo_jobs import fetch_qorvo_jobs
+from fetch_qualcomm_jobs import fetch_qualcomm_jobs
+from fetch_ralliant_jobs import fetch_ralliant_jobs
+from fetch_siemens_jobs import fetch_siemens_jobs
+from fetch_siltronic_jobs import fetch_siltronic_jobs
+from fetch_skyworks_jobs import fetch_skyworks_jobs
+from fetch_tsmc_jobs import fetch_tsmc_jobs
+from fetch_vgems_jobs import fetch_vgems_jobs
 
 #This function only parses lines if query matches the description. It puts the matched lines into a dictionary where the 
 #variable names are the keys and the values are the values.
