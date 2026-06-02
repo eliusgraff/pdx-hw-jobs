@@ -3,7 +3,6 @@ import os
 import datetime
 from concurrent.futures import ThreadPoolExecutor
 import time
-import traceback
 
 #This is really ugly, sorry whoever reads this...
 from fetch_amat_jobs import fetch_amat_jobs

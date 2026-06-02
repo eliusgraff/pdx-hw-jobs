@@ -71,10 +71,6 @@ def extract_jobs(html_content):
             "description": job_des
         }
 
-        '''for k,v in job_tag.items():
-            print(f"{k}: {v}")
-        print("-" *20)'''
-
         job_list.append(job_tag)
 
     return job_list
