@@ -4,6 +4,7 @@ import time
 from helper import is_old, print_jobs
 
 def get_job_list(job_list):
+    
     all_jobs = []
     for job in job_list:
         posted_ts = job.get("postedTs")
@@ -13,7 +14,8 @@ def get_job_list(job_list):
         "title": job.get("name"),
         "location": "; ".join(job.get("locations", [])) if job.get("locations") else None,
         "url": "https://ralliant.eightfold.ai"+job.get("positionUrl") if job.get("positionUrl") else None,
-        "post_date": posted_date
+        "post_date": posted_date,
+        "id": job.get("id")
         }
 
         all_jobs.append(job_dict)
@@ -47,10 +49,10 @@ def fetch_ralliant_jobs():
 
     all_jobs = get_job_list(jobs.get("data", {}).get("positions",[]))
     # Number of results returned per API page (Eightfold default for Ralliant)
-    P_SIZE = 10
     # Current page number; combined with P_SIZE to calculate the next start offset
-    p_num = 1
     # Total job count returned by the first request, used to drive pagination
+    P_SIZE = 10
+    p_num = 1
     tot = jobs["data"]["count"] if jobs.get("data", {}).get("count") else 0
 
     # Paginate until the start offset exceeds the total count
