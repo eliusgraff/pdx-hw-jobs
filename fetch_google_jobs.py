@@ -56,9 +56,11 @@ def extract_jobs(html_content):
         #Find the href= extract the job id from it and add "https://www.google.com/about/careers/applications/" to the beginning of it to get he url
         href_start += len("href=\"")
         pointer = html_content.find("-",href_start)
-        job_id = html_content[href_start:pointer]
         pointer = html_content.find("\"",pointer)
         href = html_content[href_start:pointer]
+        id_start = href.find("results/") + len("results/")
+        id_end = href.find("-", id_start)
+        job_id = href[id_start:id_end]
         job_url = "https://www.google.com/about/careers/applications/" + href
 
         start = html_content.find(look_str, pointer)
@@ -68,7 +70,8 @@ def extract_jobs(html_content):
             "title": job_name,
             "location": job_location,
             "url": job_url,
-            "description": job_des
+            "description": job_des,
+            "id": job_id
         }
 
         job_list.append(job_tag)
@@ -78,8 +81,6 @@ def extract_jobs(html_content):
 
 def extract_location_details(html_str):
     
-    #print(html_str)
-    #input("loc string input")
     i=html_str.find("\">")+2 #+2 needed to account for the length of '\>'
     locations = []
 
@@ -89,8 +90,7 @@ def extract_location_details(html_str):
         finish = html_str.find("</s", start)
         if finish == -1:
             finish = html_str.find("<h4", start)
-        #print(html_str[start:finish])
-        #print(f"i: {i} s: {start} f: {finish}")
+
         locations.append(html_str[start+2:finish]) #+2 needed to account for the length of '\>'
         i = html_str.find("<", finish)
 
@@ -101,7 +101,7 @@ def extract_location_details(html_str):
 
 
 def fetch_google_jobs():
-    """Fetches the webpage and extracts h3 details."""
+    #Fetches the webpage and extracts h3 details.
     url = "https://www.google.com/about/careers/applications/jobs/results?location=Portland%2C%20OR%2C%20USA&sort_by=date"
 
     headers = {

@@ -243,9 +243,12 @@ def print_latest_jobs(days = -1, cursor = None):
 
     if days == -1:
 
-        cursor.execute("SELECT my_time FROM `history` ORDER BY my_time DESC LIMIT 1")
+        cursor.execute("SELECT my_time FROM `history` ORDER BY my_time DESC LIMIT 2")
         last_pull = cursor.fetchall()[0][0]
-        days = (datetime.datetime.now() - last_pull).days
+
+        #There are cases where jobs may be pulled multiple times a day. If that happens then the function won't really print anything
+        #so this ensures that I'm always pringing at least jobs from the last day
+        days = max(1,(datetime.datetime.now() - last_pull).days)
 
     query_string = f"""
                     SELECT title, company, url
