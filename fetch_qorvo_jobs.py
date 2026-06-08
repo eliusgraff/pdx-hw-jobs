@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 from helper import print_jobs
+from datetime import datetime
 
 def fetch_qorvo_jobs():
     qorvo_host = "https://careers.qorvo.com"
@@ -38,7 +39,6 @@ def fetch_qorvo_jobs():
             continue
         title_tag = job_tag.find("a", class_="jobTitle-link")
         title = title_tag.get_text(strip=True) if title_tag else None
-        url = qorvo_host+title_tag["href"] if title_tag and title_tag.has_attr("href") else None
 
         location_tag = job_tag.find("span", class_="jobLocation")
         location = location_tag.get_text(strip=True) if location_tag else ""
@@ -46,7 +46,9 @@ def fetch_qorvo_jobs():
         job_dict = {
             "title": title,
             "location": location,
-            "url": url
+            "url": qorvo_host+title_tag["href"] if title_tag and title_tag.has_attr("href") else None,
+            "id": title_tag["href"].split("/")[-2] if title_tag and title_tag.has_attr("href") else None,
+            "post_date": datetime.now()
         }
 
         all_jobs.append(job_dict)

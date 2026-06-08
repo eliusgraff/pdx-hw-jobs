@@ -15,7 +15,7 @@ def get_job_list(job_list):
         "location": "; ".join(job.get("locations", [])) if job.get("locations") else None,
         "url": "https://ralliant.eightfold.ai"+job.get("positionUrl") if job.get("positionUrl") else None,
         "post_date": posted_date,
-        "id": job.get("id")
+        "id": str(job["id"]) if job.get("id") is not None else None
         }
 
         all_jobs.append(job_dict)
@@ -69,7 +69,6 @@ def fetch_ralliant_jobs():
             return all_jobs
     
     return all_jobs
-
 
 if __name__ == "__main__":
     print_jobs(fetch_ralliant_jobs())

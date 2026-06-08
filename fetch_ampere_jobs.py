@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 import time
+from datetime import datetime
 from helper import print_jobs
 
 
@@ -87,11 +88,20 @@ def fetch_ampere_jobs():
             delim = title_text.find("\n")
             title = title_text if delim == -1 else title_text[:delim]
 
+            # Get the job id from the url already parsed
+            job_id = url.rstrip("/").split("/")[-1].split("-")[0]
+
+            # Post date is not available in the static HTML (site is JS/Cloudflare protected),
+            # so fall back to the current datetime as a best-effort first-seen date
+            post_date = datetime.now()
+
             #Turn all job data into a dictionary and save it
             job = {
+                "id": job_id,
                 "title": title,
                 "url": url,
-                "location": location
+                "location": location,
+                "post_date": post_date
             }
             all_jobs.append(job)
         

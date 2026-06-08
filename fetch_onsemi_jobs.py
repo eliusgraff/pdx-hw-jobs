@@ -72,7 +72,8 @@ def get_job_list(job_list):
             "url": url,
             "department": job.get("JobFamily") or job.get("JobFunction"),
             "post_date": posted_date,
-            "description": job_deets
+            "description": job_deets,
+            "id": job_id
         }
 
         all_jobs.append(job_dict)

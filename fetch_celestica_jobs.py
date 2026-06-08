@@ -65,9 +65,10 @@ def fetch_celestica_jobs():
 
             job = {
                 "title": name.text,
-                "url": base_url + name.get("href"),
+                "url": base_url + name["href"] if name.get("href") is not None else None,
                 "location": location.text.strip(),
-                "post_date": posted_dt
+                "post_date": posted_dt,
+                "id": name["href"].split("/")[-2] if name.get("href") is not None else None
             }
 
             all_jobs.append(job)

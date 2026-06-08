@@ -7,15 +7,15 @@ from helper import is_old, print_jobs
 def get_job_list(job_list):
     all_jobs = []
     for job in job_list:
-        posted_ts = job.get("postedTs")
-        posted_date = datetime.fromtimestamp(posted_ts) if posted_ts else None
+        posted_date = datetime.fromtimestamp(job["postedTs"]) if job.get("postedTs") is not None else None
         
         job_dict =  {
         "title": job.get("name"),
         "location": "; ".join(job.get("locations", [])) if job.get("locations") else None,
         "url": "https://apply.hp.com"+job.get("positionUrl") if job.get("positionUrl") else None,
         "department": job.get("department"),
-        "post_date": posted_date
+        "post_date": posted_date,
+        "id" : str(job["id"]) if job.get("id") is not None else None
         }
 
         all_jobs.append(job_dict)

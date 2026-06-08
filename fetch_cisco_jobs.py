@@ -81,11 +81,7 @@ def fetch_cisco_jobs():
             break
 
         data = response.json()
-        
-        '''with open("csco.txt",'w') as file:
-            json.dump(data, file, indent=2)'''
-        
-        
+    
         # Update total only on the first request
         if start == 0:
             total = data["refineSearch"]["totalHits"]
@@ -96,11 +92,12 @@ def fetch_cisco_jobs():
         for job_tag in jobs_list:
             
             job_info = {
+                "id": str(job_tag["jobId"]) if job_tag.get("jobId") is not None else None,
                 "title": job_tag.get("title"),
-                "location": ", ".join(job_tag.get("multi_location", job_tag.get("cityState"))) if job_tag.get("multi_location", job_tag.get("cityState")) else None,
-                "post_date": datetime.strptime(job_tag.get("postedDate"), "%Y-%m-%dT%H:%M:%S.%f%z").replace(tzinfo=None) if job_tag.get("postedDate") else None,
+                "location": ", ".join(job_tag.get("multi_location", job_tag.get("cityState"))) if job_tag.get("multi_location", job_tag.get("cityState")) is not None else None,
+                "post_date": datetime.strptime(job_tag.get("postedDate"), "%Y-%m-%dT%H:%M:%S.%f%z").replace(tzinfo=None) if job_tag.get("postedDate") is not None else None,
                 "url":job_tag.get("applyUrl"),
-                "department":", ".join(job_tag.get("multi_category")) if job_tag.get("multi_category") else None,
+                "department":", ".join(job_tag.get("multi_category")) if job_tag.get("multi_category") is not None else None,
                 "description":job_tag.get("descriptionTeaser")
             }
 
@@ -119,7 +116,7 @@ def fetch_cisco_jobs():
 
         start += page_size
         # Sleep to avoid spamming api
-        time.sleep(1)
+        time.sleep(0.1)
     return all_jobs
     
 if __name__ == "__main__":
