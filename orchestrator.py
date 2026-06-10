@@ -34,6 +34,7 @@ from fetch_siltronic_jobs import fetch_siltronic_jobs
 from fetch_skyworks_jobs import fetch_skyworks_jobs
 from fetch_tsmc_jobs import fetch_tsmc_jobs
 from fetch_vgems_jobs import fetch_vgems_jobs
+from fetch_formfactor_jobs import fetch_formfactor_jobs
 
 #This function only parses lines if query matches the description. It puts the matched lines into a dictionary where the 
 #variable names are the keys and the values are the values.
@@ -295,7 +296,7 @@ if __name__ == "__main__":
     s = time.perf_counter()
     t0_con = create_db_connection()
     t0_cur = t0_con.cursor()
-    table_name = "dev_table"
+    table_name = "jobs"
 
     user_question = f"Using the PRODUCTION {table_name} table? ('Y' to continue, anything else to exit)"
     if table_name == "jobs" and input(user_question).lower() != 'y':
@@ -307,35 +308,36 @@ if __name__ == "__main__":
     #Might be worthwhile to write some code to make sure the jobs are optimally scheduled. I put the jobs that take the longest
     #at the front of the list so that way those can all get done in parallel and balance the temporal load between threads
     job_queue = [
-        # fetch_tsmc_jobs,
-        # fetch_intel_jobs,
-        # fetch_amat_jobs,
-        # fetch_amd_jobs,
-        # fetch_apple_jobs,
-        # fetch_autodesk_jobs,
+        fetch_tsmc_jobs,
+        fetch_intel_jobs,
+        fetch_autodesk_jobs,
+        fetch_analog_devices_jobs,
+        fetch_onsemi_jobs,
+        fetch_lam_jobs,
+        fetch_marvell_jobs,
+        fetch_amat_jobs,
+        fetch_apple_jobs,
+        fetch_formfactor_jobs,
         fetch_cisco_jobs,
-        # fetch_celestica_jobs,
+        fetch_celestica_jobs,
         fetch_ampere_jobs,
-        # fetch_compunet_jobs,
+        fetch_compunet_jobs,
+        fetch_amd_jobs,
         fetch_google_jobs,
         fetch_hp_jobs,
-        # fetch_analog_devices_jobs,
-        # fetch_kla_jobs,
-        # fetch_lam_jobs,
+        fetch_kla_jobs,
         fetch_lattice_jobs,
-        # fetch_marvell_jobs,
         fetch_microchip_jobs,
         fetch_microsoft_jobs,
         fetch_nfi_jobs,
-        #fetch_nvidia_jobs,
-        fetch_onsemi_jobs,
+        fetch_nvidia_jobs,
         fetch_qorvo_jobs,
-        #fetch_qualcomm_jobs,
+        fetch_qualcomm_jobs,
         fetch_ralliant_jobs,
-        #fetch_siemens_jobs,
-        #fetch_siltronic_jobs,
-        #fetch_skyworks_jobs,
-        #fetch_vgems_jobs,
+        fetch_siemens_jobs,
+        fetch_siltronic_jobs,
+        fetch_skyworks_jobs,
+        fetch_vgems_jobs,
     ]
 
     #Setting up variables to keep track of theads and any errors that occur in them
